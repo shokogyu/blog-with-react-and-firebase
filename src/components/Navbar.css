@@ -1,0 +1,25 @@
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: #ffa842;
+    gap: 45px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    transition: opacty 0.3s ease;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.nav-link svg {
+    margin-right: 5px;
+}
