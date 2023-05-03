@@ -14,7 +14,7 @@ const Home = () => {
     getPosts()
   }, [])
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, title) => {
     await deleteDoc(doc(db, "post", id))
 
     // リロードし直す場合
@@ -26,27 +26,36 @@ const Home = () => {
 
   return (
     <div className='homePage'>
+      <p className="homePageDesc">
+        ReactとFirebaseを使用して簡易的なブログを構築しました。
+      </p>
       <div className="homePageInner">
-        {postList.map((post) => {
-          return (
-            <div className="postContainer" key={post.id}>
-              <div className="postContents">
-                  <div className="postHeader">
-                    <h1>{post.title}</h1>
-                  </div>
+        {postList.length ? (
+          postList.map((post) => {
+            return (
+              <div className="postContainer" key={post.id}>
+                <div className="postContents">
+                    <div className="postHeader">
+                      <h1>{post.title}</h1>
+                    </div>
+                </div>
+                <div className="postTextContainer">
+                  {post.postText}
+                </div>
+                <div className="nameAndDeleteButton">
+                  <h3 className='name'>@{post.author.username}</h3>
+                  {post.author.id === auth.currentUser?.uid && (
+                    <button className="deleteButton" onClick={() => handleDelete(post.id, post.title)}>削除</button>
+                  )}
+                </div>
               </div>
-              <div className="postTextContainer">
-                {post.postText}
-              </div>
-              <div className="nameAndDeleteButton">
-                <h3>@{post.author.username}</h3>
-                {post.author.id === auth.currentUser?.uid && (
-                  <button onClick={() => handleDelete(post.id)}>削除</button>
-                )}
-              </div>
-            </div>
-          )
-        })}
+            )
+          })
+        ) : (
+          <div className="postContainer">
+            <p className="none">現在、投稿はありません</p>
+          </div>
+        )}
       </div>
     </div>
   )
